@@ -1,6 +1,6 @@
 # LogiLab coding Challenge
 
-For this codding challenge, I choose the [Mastermind](http://codingdojo.org/kata/Mastermind/) exercise on codingdojo.
+For this coding challenge, I choose the [Mastermind](http://codingdojo.org/kata/Mastermind/) exercise on codingdojo.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine.
