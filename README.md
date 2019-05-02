@@ -11,24 +11,24 @@ On Debian:
 ```sh
 $ sudo apt-get install haskell-platform
 ```
-If you want to run the tests, tou can install the HUnit library (optional)
+If you want to run the tests, you will have to install the HUnit library. (optional)
 ```sh
 $ cabal new-install --lib HUnit
 ```
 ### Installing
-First, clone the repository on your local machine
+First, clone the repository on your local machine.
 ```sh
 $ git clone https://github.com/gvandeve42/LogiLabCodingChallenge.git
 ```
-then, at the root of this folder, launch ghci
+Then, at the root of this folder, launch ghci.
 ```sh
 $ ghci
 ```
-while in the Haskell interpreter, you can load the project
+While in the Haskell interpreter, you can load the project by typing:
 ```sh
 Prelude> :l Mastermind/Core.hs
 ```
-You can then run the Mastermind functions
+You can then run the Mastermind functions:
 ```sh
 *Mastermind.Core> let secret = map Color ["red", "blue", "green", "yellow"]
 *Mastermind.Core> let guess = map Color ["red", "green", "blue", "yellow"]
@@ -36,7 +36,7 @@ You can then run the Mastermind functions
 Result {wellPlaced = 2, missPlaced = 2}
 ```
 ### Running the tests
-for running the tests, make sure you have the HUnit library installed, then type
+To run the tests, make sure you have the HUnit library installed, then type:
 ```sh
 *Mastermind.Core> :l Mastermind/Test.hs 
 [1 of 2] Compiling Mastermind.Core  ( Mastermind/Core.hs, interpreted )
