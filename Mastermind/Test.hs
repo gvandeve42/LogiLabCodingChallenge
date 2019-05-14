@@ -2,7 +2,9 @@ module Mastermind.Test
   ( mastermindTests
   ) where
 
-import Mastermind.Core
+import Mastermind.Models
+import Mastermind.HintPlayer
+import Mastermind.Utils
 import Test.HUnit
 
 testGetWellPlaced =
