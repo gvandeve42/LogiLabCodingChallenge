@@ -23,12 +23,10 @@ getColorsCount secret guess colors =
     minColorCount color = min (countColor secret color) (countColor guess color)
 
 --getResult :: (Ord a) => [Color a] -> [Color a] -> [Color a] -> Maybe Result
-getResult :: (Ord a) => [Color a] -> [Color a] -> Maybe Result
+getResult :: (Ord a) => [Color a] -> [Color a] -> Result
 --getResult secret guess colors =
 getResult secret guess =
-  if length secret == length guess
-  then Just . Result wellPlaced $ missPlaced
-  else Nothing
+  Result wellPlaced $ missPlaced
   where
     colors = nub secret
     wellPlaced = getWellPlaced secret guess
