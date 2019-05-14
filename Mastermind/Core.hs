@@ -1,69 +1,54 @@
 module Mastermind.Core
   ( Result(..)
   , Color(..)
-  , Guess(..)
-  , Secret(..)
   , secretExample
   , guessExample
-  , removeColor
+  , countColor
   , getWellPlaced
-  , getMissPlaced
-  , removeWellPlaced
+  , getColorsCount
   , getResult
   ) where
 
 import Data.List
 
-data Result = Result {wellPlaced :: Int, missPlaced :: Int} deriving (Show)
-newtype Color = Color String deriving (Eq, Show)
-type Guess = [Color]
-type Secret = [Color]
+data Result = Result {wellPlaced :: Int, missPlaced :: Int} deriving (Eq, Show)
+newtype Color a = Color a deriving (Eq, Ord, Show)
 
-secretExample :: Secret
+secretExample :: [Color String]
 secretExample = map Color ["blue", "red", "green", "pink", "yellow", "blue", "blue", "yellow"]
 
-guessExample :: Guess
+guessExample :: [Color String]
 guessExample = map Color ["yellow", "red", "blue", "green", "green", "yellow", "blue", "blue"]
 
-removeColor :: [Color] -> Color -> [Color]
--- ^Remove one and only one color from a list of colors.
-removeColor [] _ = []
-removeColor (x:xs) color
-  | x == color = xs
-  | otherwise = x:(removeColor xs color)
+countColor :: (Ord a) => [Color a] -> Color a -> Int
+-- ^Simple function for counting the number of occurence of a color in a list of colors
+countColor [] _ = 0
+countColor (x:xs) color
+  | x == color = succ (countColor xs color)
+  | otherwise = countColor xs color
 
-getWellPlaced :: Secret -> Guess -> Int
+getWellPlaced :: (Ord a) => [Color a] -> [Color a] -> Int
 -- ^Accumulator for counting the well placed colors.
 getWellPlaced [] [] = 0
 getWellPlaced (x:xs) (y:ys)
   | x == y = succ $ getWellPlaced xs ys
   | otherwise = getWellPlaced xs ys
 
-getMissPlaced :: Secret -> Guess -> Int
--- ^ Count the number of miss placed colors.
--- /!\ Should only be used after applying the "removeWellPlaced" function
-getMissPlaced _ [] = 0
-getMissPlaced secret (x:xs)
-  | elem x secret = succ (getMissPlaced newSecret xs)
-  | otherwise = getMissPlaced secret xs
+getColorsCount :: (Ord a) => [Color a] -> [Color a] -> [Color a] -> Int
+getColorsCount [] [] _ = 0
+getColorsCount secret guess colors =
+  sum . map (minColorCount) $ colors
   where
-    newSecret = removeColor secret x
+    minColorCount color = min (countColor secret color) (countColor guess color)
 
-removeWellPlaced :: Secret -> Guess -> (Secret, Guess)
--- ^Remove the identical pairs for further analysis
-removeWellPlaced secret guess =
-  let tuplify [] = ([], [])
-      tuplify [a, b] = (a, b)
-      pairMissPlaced [] [] = []
-      pairMissPlaced (x:xs) (y:ys)
-        | x == y = pairMissPlaced xs ys
-        | otherwise = [x, y]:(pairMissPlaced xs ys)
-  in tuplify . transpose . pairMissPlaced secret $ guess
-
-getResult :: Secret -> Guess -> Result
+--getResult :: (Ord a) => [Color a] -> [Color a] -> [Color a] -> Maybe Result
+getResult :: (Ord a) => [Color a] -> [Color a] -> Maybe Result
+--getResult secret guess colors =
 getResult secret guess =
-  Result wellPlaced missPlaced
+  if length secret == length guess
+  then Just . Result wellPlaced $ missPlaced
+  else Nothing
   where
-    (newSecret, newGuess) = removeWellPlaced secret guess
+    colors = nub secret
     wellPlaced = getWellPlaced secret guess
-    missPlaced = getMissPlaced newSecret newGuess
+    missPlaced = (getColorsCount secret guess colors) - wellPlaced
