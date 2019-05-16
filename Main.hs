@@ -23,7 +23,7 @@ main :: IO ()
 main = do
   args <- getArgs
   if length args /= 2
-    then do putStrLn "Error in the number of arguments... Please retry"
+    then do putStrLn "usage: mastermind <secret_length> <number_of_colors>"
             return ()
     else do let n = (read $ args!!0) :: Int
             let colors = map Color [1..(read $ args!!1)] :: [Color Int]

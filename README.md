@@ -20,29 +20,13 @@ First, clone the repository on your local machine
 ```sh
 $ git clone https://github.com/gvandeve42/LogiLabCodingChallenge.git
 ```
-then, at the root of this folder, launch ghci
+You can now compile the project
 ```sh
-$ ghci
+$ ghc -o mastermind Main.hs
 ```
-while in the Haskell interpreter, you can load the project
+### Running
+
+You can test the project with the command
 ```sh
-Prelude> :l Mastermind/Core.hs
-```
-You can then run the Mastermind functions
-```sh
-*Mastermind.Core> let secret = map Color ["red", "blue", "green", "yellow"]
-*Mastermind.Core> let guess = map Color ["red", "green", "blue", "yellow"]
-*Mastermind.Core> getResult secret guess
-Result {wellPlaced = 2, missPlaced = 2}
-```
-### Running the tests
-for running the tests, make sure you have the HUnit library installed, then type
-```sh
-*Mastermind.Core> :l Mastermind/Test.hs 
-[1 of 2] Compiling Mastermind.Core  ( Mastermind/Core.hs, interpreted )
-[2 of 2] Compiling Mastermind.Test  ( Mastermind/Test.hs, interpreted )
-Ok, two modules loaded.
-*Mastermind.Test> runTestTT mastermindTests
-Cases: 4  Tried: 4  Errors: 0  Failures: 0
-Counts {cases = 4, tried = 4, errors = 0, failures = 0}
+mastermind <secret_length> <number_of_colors>
 ```
